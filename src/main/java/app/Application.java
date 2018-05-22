@@ -32,9 +32,7 @@ public class Application {
             Map<String, Object> model = new HashMap<>();
 
             String sql = String.format("select * from users where user = '%s'", request.queryParams("user"));
-            System.out.println(sql.toString());
             List<User> usersList = db.select(sql);
-            System.out.println(String.format("[*] Found %d entries", usersList.size()));
             model.put("users", usersList);
 
             return new VelocityTemplateEngine().render(new ModelAndView(model, "/templates/index.html"));

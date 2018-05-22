@@ -25,28 +25,20 @@ public class DBHelper {
         List<User> userList = new ArrayList<>();
 
         try {
-            System.out.println("[*] Start 'Select' method");
             // Step 2 - Open connection
-            System.out.println("Open connection");
             conn = connect();
 
             // Step 3 - Execute statement
-            System.out.println("Create statment");
             stmt = conn.createStatement();
-            System.out.println("Execute query");
             rs = stmt.executeQuery(query);
 
             // iterate through the java resultset
-            System.out.println("Iterate through results");
             if(rs != null) {
                 while (rs.next())
                 {
                     User entry = new User();
-//                System.out.println("[-] Set user");
                     entry.setUser(rs.getString("user"));
-//                System.out.println("[-] Set password");
                     entry.setPassword(rs.getString("password"));
-//                System.out.println("[-] Add to list");
                     userList.add(entry);
                 }
             }
@@ -71,7 +63,6 @@ public class DBHelper {
                 e.printStackTrace();
             }
         }
-        System.out.println("[*] End 'Select' method");
         return userList;
     }
 
