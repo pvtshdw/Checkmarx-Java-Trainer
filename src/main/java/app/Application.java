@@ -33,10 +33,17 @@ public class Application {
 
             String sql = String.format("select * from users where user = '%s'", request.queryParams("user"));
             List<User> usersList = db.select(sql);
-            model.put("users", usersList);
+            if (usersList.size() > 0) {
+                model.put("users", usersList);
+            }
+            else {
+                model.put("searchString", request.queryParams("user"));
+            }
 
             return new VelocityTemplateEngine().render(new ModelAndView(model, "/templates/index.html"));
         });
+
+        System.out.println(String.format("[*] Running: http://localhost:%s", 4567));
     }
 
     // declare this in a util-class
