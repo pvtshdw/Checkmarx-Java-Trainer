@@ -3,6 +3,7 @@ package app;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,15 @@ public class Application {
             Map<String, Object> model = new HashMap<>();
 
             String sql = String.format("select * from users where user = '%s'", request.queryParams("user"));
-            List<User> usersList = db.select(sql);
+            List<User> usersList = new ArrayList<User>();
+            try {
+                usersList = db.select(sql);
+            }
+            catch (Exception e) {
+                System.out.println("[!!] EXCEPTION");
+                System.out.println(e);
+            }
+
             if (usersList.size() > 0) {
                 model.put("users", usersList);
             }
@@ -44,6 +53,7 @@ public class Application {
         });
 
         System.out.println(String.format("[*] Running: http://localhost:%s", 4567));
+        System.out.println(String.format("[*] DB Host: %s", DBConfig.DB_HOST));
     }
 
     // declare this in a util-class
